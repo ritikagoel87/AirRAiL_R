@@ -59,7 +59,7 @@ class CreateFlight extends Component {
          <textarea onChange={ this._handleChangeDestination } value={this.state.destination}></textarea>
 
          <label> Dates       </label>
-         <textarea onChange={ this._handleChangeDate } value={this.state.date}></textarea>
+         <input type="date" onChange={ this._handleChangeDate } value={this.state.date} />
 
          <label> PlaneId  </label>
          <textarea onChange={ this._handleChangePlaneId } value={this.state.plane_id}></textarea>
