@@ -10,6 +10,7 @@ import NewReservation from './components/NewReservation';
 import Search from './components/Search';
 import Itinerary from './components/Itinerary';
 import Booking from './components/Booking';
+import Seating from './components/Seating';
 
 const Routes = (
   <Router>
@@ -23,6 +24,7 @@ const Routes = (
       <Route exact path="/search" component={ Search } />
       <Route exact path="/itinerary/:b_id" component={ Itinerary } />
       <Route exact path="/bookings" component={ Booking } />
+      <Route exact path="/seating" component={ Seating } />
     </div>
   </Router>
 );
