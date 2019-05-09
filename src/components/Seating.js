@@ -2,53 +2,74 @@ import React, { Component } from 'react';
 import '../seating.css';
 import axios from 'axios'
 
-const SERVER_URL = 'http://localhost:3000/planes.json';
+const SERVER_URL = 'http://localhost:3000/reservations.json';
+const FLIGHT_SERVER_URL = 'http://localhost:3000/flights.json';
+const PLANE_SERVER_URL = 'http://localhost:3000/planes.json';
 
 class Seating extends Component {
   constructor() {
     super();
 
-    this.state = {plan_object: []}
-    this.state = { planes: [], seat: '' };
+    this.state = { seat: '', flight_id: 2, user_id: 1, plane_id: 0 };
     this.changeHandler = this.changeHandler.bind(this);
     this.selectSeat = this.selectSeat.bind(this);
+    // this.fetchFlights = this.fetchFlights.bind(this);
 
-    const fetchPlanes = () => {
-      axios.get(  SERVER_URL, { params: { "id": 1 } }).then( ( results ) => {
-        this.setState({planes: results.data});
-        this.setState({plane_objet: results.data})
-
-
+    const fetchReservations = () => {
+      axios.get( SERVER_URL ).then( ( results ) => {
        console.log(results.data);
       });
     }
+
+    const fetchFlights = () => {
+      axios.get( FLIGHT_SERVER_URL ).then( ( results ) => {
+      let id = 0;
+       results.data.filter((flight) => {
+         console.log(flight.plane_id);
+             if(flight.id === this.state.flight_id) {
+               id = flight.plane_id
+               console.log(id);
+             }
+             // return(flight.flight_id === this.state.flight_id)
+         });
+
+       console.log(id);
+         // console.log(example);
+      });
+    }
+    const fetchPlanes = () => {
+      axios.get( PLANE_SERVER_URL ).then( ( results ) => {
+       console.log(results.data);
+      });
+    }
+  fetchFlights();
   fetchPlanes();
-  }
-
-  selectSeat(e){
-    e.preventDefault();
-    axios.post(SERVER_URL, {seat: this.state.seat}).then((result) => {
-      console.log(result);
-      console.log(result.data.filter(e => e.id === this.state.plane_id));
-    });
-    console.log(this.state.seat);
-
-
+  fetchReservations();
   }
 
   changeHandler(e) {
     this.setState({seat: e.target.id});
   }
 
+  selectSeat(e){
+    e.preventDefault();
+    axios.post(SERVER_URL,
+      {user_id: this.state.user_id,
+        flight_id: this.state.flight_id,
+        seat: this.state.seat}).then((result) => {
+    });
+  }
+
+
   render() {
-  let logo = require('../logl.svg')
-  let planelogo = require('../plane.svg')
+  const logo = require('../logl.svg')
+  const planelogo = require('../plane.svg')
     return (
 
       <div>
     <header>
-      <img className="logo"src={logo} />
-      <img className="plane"src={planelogo} />
+      <img className="logo"src={logo} alt="LOL" />
+      <img className="plane"src={planelogo} alt="LOL"/>
         </header>
 
         <div className="grid-container">

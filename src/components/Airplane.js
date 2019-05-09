@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../seating.css';
+
 
 const SERVER_URL = 'http://localhost:3000/planes.json';
 const DELETE_PLANE_URL = 'http://localhost:3000/planes/';
@@ -39,6 +41,8 @@ class Airplane extends Component {
   }
 
   render() {
+    const logo = require('../logl.svg')
+    const planelogo = require('../plane.svg')
     return (
       <div>
         <h2>All Planes</h2>
