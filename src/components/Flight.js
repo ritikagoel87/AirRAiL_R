@@ -1,10 +1,46 @@
-import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SERVER_URL = 'http://localhost:3000/flights.json';
 
-//Parent Comp
+class Flight extends Component {
+  constructor (){
+    super();
+    this.state = {
+      flights: []
+    };
+    this.saveFlight = this.saveFlight.bind( this );
+
+    const fetchFlight = () => {
+      axios.get(SERVER_URL).then( (results) => {
+        this.setState({ flights: results.data });
+        setTimeout(fetchFlight, 4000);
+      });
+    };
+
+    fetchFlight();
+  }
+
+  saveFlight(s) {
+    axios.post(SERVER_URL, {number: s.number, origin: s.origin, destination: s.destination, date: s.date, plane_id: s.plane_id}).then((results) => {
+      console.log('results data', results);
+      this.setState( {flights: [...this.state.flights, results.data]  });
+    });
+  }
+
+  render(){
+    return (
+      <div>
+        <h1>Flight</h1>
+        <CreateFlight onSubmit={ this.saveFlight } />
+        <Display flights={ this.state.flights } />
+      </div>
+    )
+  }
+};
+
+
 class CreateFlight extends Component {
   constructor() {
     super();
@@ -22,8 +58,9 @@ class CreateFlight extends Component {
     this._handleChangeDate = this._handleChangeDate.bind(this);
     this._handleChangePlaneId = this._handleChangePlaneId.bind(this);
     //submit
-    this._handleSaveFlight = this._handleSaveFlight.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
+
   _handleChangeNumber(e) {
     this.setState( {number: e.target.value} );
   }
@@ -40,15 +77,22 @@ class CreateFlight extends Component {
     this.setState( {plane_id: e.target.value} );
   }
   //submit
-    _handleSaveFlight(e) {
+    _handleSubmit(e) {
       e.preventDefault();
-      this.props.onSubmit( this.state);
+      this.props.onSubmit( this.state );
+      this.setState({
+        number: '',
+        origin: '',
+        destination: '',
+        date: '',
+        plane_id: ''
+     });
     }
 
 
   render() {
     return(
-       <form onSubmit={ this._handleSaveFlight }>
+       <form onSubmit={ this._handleSubmit }>
          <label> Number  </label>
          <textarea onChange={ this._handleChangeNumber } value={this.state.number}></textarea>
 
@@ -62,7 +106,7 @@ class CreateFlight extends Component {
          <input type="date" onChange={ this._handleChangeDate } value={this.state.date} />
 
          <label> PlaneId  </label>
-         <textarea onChange={ this._handleChangePlaneId } value={this.state.plane_id}></textarea>
+         <input type="number" onChange={ this._handleChangePlaneId } value={this.state.plane_id} />
          <br/><br/>
          <input type="submit" value="Create Plane" />
        </form>
@@ -71,38 +115,6 @@ class CreateFlight extends Component {
 };
 
 //Child Comp
-class Flight extends Component {
-  constructor (){
-    super();
-    this.state = {
-      flights: []
-    };
-    this.saveFlight = this.saveFlight.bind( this );
-    const fetchFlight = () => {
-      axios.get(SERVER_URL).then( (results) => {
-        this.setState({ flights: results.data });
-        setTimeout(fetchFlight, 4000);
-      }).catch(err => console.log(err))
-    }
-    fetchFlight();
-  }
-
-  saveFlight(s) {
-    axios.post(SERVER_URL, {number: s.number, origin: s.origin, destination: s.destination, date: s.date, plane_id: parseInt(s.plane_id)}).then((results) => {
-      console.log("results data: ", results.data);
-      this.setState( {flights: [results.data,...this.state.flights]  });
-    }).catch(err => console.log(err))
-  }
-  render(){
-    return (
-      <div>
-        <h1>Flight</h1>
-        <CreateFlight onSubmit={ this.saveFlight } onSubmit={ this.saveFlight } />
-        <Display flights={ this.state.flights } />
-      </div>
-    )
-  }
-};
 
 //Displayplanes
 class Display extends Component {
@@ -110,8 +122,8 @@ class Display extends Component {
     return (
       <div>
         <ul>
-          {this.props.flights.map((s) => <p key={s.id}>{s.name}&nbsp;{s.name}&nbsp;{s.number}&nbsp;{s.origin}&nbsp;{s.destination}&nbsp;{s.date}&nbsp;{s.plane_id}</p>)}
-          </ul>
+          {this.props.flights.map( (s) => <p key={s.id}>{s.number}&nbsp;{s.origin}&nbsp;{s.destination}&nbsp;{s.date}&nbsp;{s.plane_id}</p>)}
+        </ul>
       </div>
     );
   }
