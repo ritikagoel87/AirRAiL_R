@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../seating.css';
 
 const SERVER_URL = 'http://localhost:3000/flights.json';
 
@@ -29,8 +30,14 @@ class Flight extends Component {
  }
 
  render(){
+   const logo = require('../logl.svg')
+   const planelogo = require('../plane.svg')
    return (
      <div>
+       <header>
+       <img className="logo"src={logo} alt="LOL" />
+       <img className="plane"src={planelogo} alt="LOL"/>
+         </header>
        <h1>Flight</h1>
        <CreateFlight onSubmit={ this.saveFlight } />
        <Display flights={ this.state.flights } />
@@ -107,7 +114,7 @@ class CreateFlight extends Component {
         <label> PlaneId  </label>
         <input type="number" onChange={ this._handleChangePlaneId } value={this.state.plane_id} />
         <br/><br/>
-        <input type="submit" value="Create Plane" />
+        <input className="button" type="submit" value="Create Plane" />
       </form>
    );
  }

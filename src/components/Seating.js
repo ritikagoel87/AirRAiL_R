@@ -97,7 +97,7 @@ class Seating extends Component {
         <div id="A1" className="seat" onClick={this.changeHandler}>A1</div>
         <div id="A2" className="seat" onClick={this.changeHandler}>A2</div>
         <div id="A3" className="seat" onClick={this.changeHandler}>A3</div>
-        <button>submit</button>
+        <button className="seat-button">submit</button>
         </form>
 
     </div>

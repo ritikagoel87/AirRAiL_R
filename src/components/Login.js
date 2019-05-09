@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../seating.css'
 
 const SERVER_URL = 'http://localhost:3000/users.json';
 
@@ -36,8 +37,14 @@ class SignUp extends Component {
 
 class Login extends Component {
   render() {
+    const logo = require('../logl.svg')
+    const planelogo = require('../plane.svg')
     return (
       <div>
+        <header>
+        <img className="logo"src={logo} alt="LOL" />
+        <img className="plane"src={planelogo} alt="LOL"/>
+          </header>
         <LoginForm />
       </div>
     );
@@ -49,16 +56,17 @@ class LoginForm extends Component {
     return(
       <div>
         <nav>
-          <p>Sign Up</p>
+          <h2>Login</h2>
+        
           <p>Sign In</p>
         </nav>
         <form>
-          <h2>Login</h2>
+
           <br></br>
-          <input name="user_name"type="text" placeholder="User Name" required autoFocus />
-          <input type="text" placeholder="Password" required />
+          <input className="login" name="user_name"type="text" placeholder="User Name" required autoFocus />
+          <input className="login" type="text" placeholder="Password" required />
           <Link to={`/search`}>
-            <input  name="submit" type="submit" value="Submit" />
+            <input className="button"  name="submit" type="submit" value="Submit" />
           </Link>
         </form>
       </div>

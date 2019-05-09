@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../seating.css';
 
 const SERVER_URL = 'http://localhost:3000/users.json';
 
@@ -21,8 +22,14 @@ class User extends Component {
   }
 
   render() {
+    const logo = require('../logl.svg')
+    const planelogo = require('../plane.svg')
     return (
       <div>
+        <header>
+        <img className="logo"src={logo} alt="LOL" />
+        <img className="plane"src={planelogo} alt="LOL"/>
+          </header>
         <h1>All Users</h1>
         <DisplayUsers users={ this.state.users } />
       </div>

@@ -45,6 +45,10 @@ class Airplane extends Component {
     const planelogo = require('../plane.svg')
     return (
       <div>
+        <header>
+          <img className="logo"src={logo} alt="LOL" />
+          <img className="plane"src={planelogo} alt="LOL" />
+            </header>
         <h2>All Planes</h2>
         <AllPlanes planes={this.state.planes} onDelete={this.deletePlane} />
         <NewPlane onSubmit={this.savePlane} />
@@ -67,7 +71,7 @@ class AllPlanes extends Component {
       <div>
         { this.props.planes.map( (p) =>
           <div key={ p.id }>
-            <p>{ p.name } with { p.seats } seats. <button onClick={ this.deleteClicked } id={ p.id }>Delete</button></p>
+            <p>{ p.name } with { p.seats } seats. <button className="buttonnn" onClick={ this.deleteClicked } id={ p.id }>Delete</button></p>
           </div>
         ) }
       </div>
@@ -126,7 +130,7 @@ class NewPlane extends Component {
           <input type="text" name="rows" placeholder="Enter rows" onInput={ this._handleRows } required />
           <label value="Columns">Columns</label>
           <input type="text" name="columns" placeholder="Enter columns" onInput={ this._handleColumns } required />
-          <button type="submit">Add</button>
+          <button className="button2" type="submit">Add</button>
         </form>
       </div>
     );
