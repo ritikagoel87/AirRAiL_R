@@ -1,11 +1,51 @@
+<<<<<<< HEAD
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import '../seating.css';
+=======
+import React, { Component } from 'react';
+>>>>>>> f27c15d80fa23443fa7402dd8806ac1a2cf49e62
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SERVER_URL = 'http://localhost:3000/flights.json';
 
-//Parent Comp
+class Flight extends Component {
+  constructor (){
+    super();
+    this.state = {
+      flights: []
+    };
+    this.saveFlight = this.saveFlight.bind( this );
+
+    const fetchFlight = () => {
+      axios.get(SERVER_URL).then( (results) => {
+        this.setState({ flights: results.data });
+      });
+    };
+
+    fetchFlight();
+  }
+
+  saveFlight(s) {
+    axios.post(SERVER_URL, {number: s.number, origin: s.origin, destination: s.destination, date: s.date, plane_id: s.plane_id}).then((results) => {
+      console.log('results data', results);
+      this.setState( {flights: [...this.state.flights, results.data]  });
+    });
+  }
+
+  render(){
+    return (
+      <div>
+        <h1>Flight</h1>
+        <CreateFlight onSubmit={ this.saveFlight } />
+        <Display flights={ this.state.flights } />
+      </div>
+    )
+  }
+};
+
+
 class CreateFlight extends Component {
   constructor() {
     super();
@@ -23,8 +63,9 @@ class CreateFlight extends Component {
     this._handleChangeDate = this._handleChangeDate.bind(this);
     this._handleChangePlaneId = this._handleChangePlaneId.bind(this);
     //submit
-    this._handleSaveFlight = this._handleSaveFlight.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
+
   _handleChangeNumber(e) {
     this.setState( {number: e.target.value} );
   }
@@ -41,16 +82,27 @@ class CreateFlight extends Component {
     this.setState( {plane_id: e.target.value} );
   }
   //submit
-    _handleSaveFlight(e) {
+    _handleSubmit(e) {
       e.preventDefault();
-      this.props.onSubmit( this.state);
+      this.props.onSubmit( this.state );
+      this.setState({
+        number: '',
+        origin: '',
+        destination: '',
+        date: '',
+        plane_id: ''
+     });
     }
 
 
   render() {
     return(
+<<<<<<< HEAD
       <div>
        <form onSubmit={ this._handleSaveFlight }>
+=======
+       <form onSubmit={ this._handleSubmit }>
+>>>>>>> f27c15d80fa23443fa7402dd8806ac1a2cf49e62
          <label> Number  </label>
          <textarea onChange={ this._handleChangeNumber } value={this.state.number}></textarea>
 
@@ -61,10 +113,10 @@ class CreateFlight extends Component {
          <textarea onChange={ this._handleChangeDestination } value={this.state.destination}></textarea>
 
          <label> Dates       </label>
-         <input type="date" onChange={ this._handleChangeDate } value={this.state.date} />
+         <input type="datetime-local" onChange={ this._handleChangeDate } value={this.state.date} />
 
          <label> PlaneId  </label>
-         <textarea onChange={ this._handleChangePlaneId } value={this.state.plane_id}></textarea>
+         <input type="number" onChange={ this._handleChangePlaneId } value={this.state.plane_id} />
          <br/><br/>
          <input className="button" type="submit" value="Create Plane" />
        </form>
@@ -74,6 +126,7 @@ class CreateFlight extends Component {
 };
 
 //Child Comp
+<<<<<<< HEAD
 class Flight extends Component {
   constructor (){
     super();
@@ -113,6 +166,8 @@ class Flight extends Component {
     )
   }
 };
+=======
+>>>>>>> f27c15d80fa23443fa7402dd8806ac1a2cf49e62
 
 //Displayplanes
 class Display extends Component {
@@ -120,9 +175,9 @@ class Display extends Component {
     return (
       <div>
         <ul>
-          {this.props.flights.map((s) => <p key={s.id}>{s.name}&nbsp;{s.name}&nbsp;{s.number}&nbsp;{s.origin}&nbsp;{s.destination}&nbsp;{s.date}&nbsp;{s.plane_id}</p>)}
+          {this.props.flights.map( (s) => <p key={s.id}>Flight number:&nbsp;{s.number}&nbsp;&nbsp;|&nbsp;&nbsp;Origin:&nbsp;{s.origin}&nbsp;&nbsp;|&nbsp;&nbsp;Destination:&nbsp;{s.destination}&nbsp;&nbsp;|&nbsp;&nbsp;Date & Time:&nbsp;{s.date}&nbsp;&nbsp;|&nbsp;&nbsp;Plane ID:&nbsp;{s.plane_id} </p> )}
           </ul>
-      </div>
+          </div>
     );
   }
 };
