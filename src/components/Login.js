@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import '../seating.css';
-=======
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -35,22 +32,12 @@ class SignUp extends Component {
   }
 };
 
->>>>>>> f27c15d80fa23443fa7402dd8806ac1a2cf49e62
 
 
 class Login extends Component {
   render() {
-    const logo = require('../logl.svg')
-    const planelogo = require('../plane.svg')
     return (
       <div>
-<<<<<<< HEAD
-        <header>
-          <img className="logo"src={logo} alt="LOL" />
-          <img className="plane"src={planelogo} alt="LOL" />
-            </header>
-        Login
-=======
         <LoginForm />
       </div>
     );
@@ -74,7 +61,6 @@ class LoginForm extends Component {
             <input  name="submit" type="submit" value="Submit" />
           </Link>
         </form>
->>>>>>> f27c15d80fa23443fa7402dd8806ac1a2cf49e62
       </div>
     );
   }
